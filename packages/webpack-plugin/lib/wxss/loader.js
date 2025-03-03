@@ -39,9 +39,20 @@ const RN_PRESET_OPTIMISATION = {
   convertValues: false
 }
 
+/**
+ *
+ * @this {LoaderContext}
+ * @param {string} content
+ * @param {string} map
+ * @param {Record<string, string>} meta
+ * @returns
+ */
 module.exports = async function loader (content, map, meta) {
   const rawOptions = this.getOptions(schema)
   const plugins = []
+  /**
+   * @type {Callback<string>}
+   */
   const callback = this.async()
 
   const mpx = this.getMpx()

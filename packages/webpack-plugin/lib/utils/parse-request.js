@@ -8,6 +8,21 @@ function genQueryObj (result) {
   return result
 }
 
+/**
+ * @typedef {Object} RequestParseResult
+ * @property {?string} resource
+ * @property {string} loaderString
+ * @property {?string} resourcePath
+ * @property {string} resourceQuery
+ * @property {?string} rawResourcePath
+ * @property {Record<string, string | undefined>} queryObj
+ */
+
+/**
+ *
+ * @param {string} request
+ * @returns {RequestParseResult}
+ */
 module.exports = function parseRequest (request) {
   if (seen.has(request)) {
     return genQueryObj(seen.get(request))

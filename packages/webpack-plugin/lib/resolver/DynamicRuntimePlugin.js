@@ -10,6 +10,9 @@ module.exports = class DynamicRuntimePlugin {
     this.target = target
   }
 
+  /**
+   * @param {import('webpack').Resolver} resolver
+   */
   apply (resolver) {
     const target = resolver.ensureHook(this.target)
     resolver.getHook(this.source).tapAsync('DynamicRuntimePlugin', (request, resolveContext, callback) => {

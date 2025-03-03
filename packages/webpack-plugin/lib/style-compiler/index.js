@@ -12,6 +12,11 @@ const parseRequest = require('../utils/parse-request')
 const isReact = require('../utils/env').isReact
 const RecordRuntimeInfoDependency = require('../dependencies/RecordRuntimeInfoDependency')
 
+/**
+ * @this {LoaderContext}
+ * @param {string} css
+ * @param {string} map
+ */
 module.exports = function (css, map) {
   this.cacheable()
   const cb = this.async()

@@ -1,8 +1,11 @@
+/**
+ *
+ * @param {string} path
+ * @param {GlobalMode} mode
+ * @returns {string}
+ */
 module.exports = function (path, mode) {
-  if (
-    (mode === 'swan' && /^\.\./.test(path)) ||
-    !/^\./.test(path)
-  ) {
+  if ((mode === 'swan' && /^\.\./.test(path)) || !/^\./.test(path)) {
     return './' + path
   }
   return path

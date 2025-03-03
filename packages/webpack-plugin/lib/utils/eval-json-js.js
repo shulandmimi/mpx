@@ -1,5 +1,12 @@
 const path = require('path')
 
+/**
+ *
+ * @param {string} source
+ * @param {string} filename
+ * @param {LoaderContext} loaderContext
+ * @returns {object}
+ */
 module.exports = function evalJSONJS (source, filename, loaderContext) {
   if (!loaderContext._compiler) return {}
   const fs = loaderContext._compiler.inputFileSystem

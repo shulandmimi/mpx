@@ -1,5 +1,8 @@
 const { hump2dash } = require('../../../utils/hump-dash')
 
+/**
+ * @type {PlatformSpecProcessor}
+ */
 module.exports = function getSpec ({ warn, error }) {
   // React Native 双端都不支持的 CSS property
   const unsupportedPropExp = /^(white-space|text-overflow|animation|transition|font-variant-caps|font-variant-numeric|font-variant-east-asian|font-variant-alternates|font-variant-ligatures|background-position|caret-color)$/

@@ -1,6 +1,9 @@
 const path = require('path')
 
 module.exports = class FixDescriptionInfoPlugin {
+  /**
+   * @param {import('webpack').Resolver} resolver
+   */
   apply (resolver) {
     resolver.hooks.result.tap('FixDescriptionInfoPlugin', (request) => {
       const { path: resourcePath } = request

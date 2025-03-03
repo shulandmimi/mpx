@@ -13,6 +13,9 @@ module.exports = class AddEnvPlugin {
     this.fileConditionRules = fileConditionRules
   }
 
+  /**
+   * @param {import('webpack').Resolver} resolver
+   */
   apply (resolver) {
     const target = resolver.ensureHook(this.target)
     const env = this.env

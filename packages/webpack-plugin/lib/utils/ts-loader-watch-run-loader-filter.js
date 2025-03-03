@@ -1,5 +1,11 @@
 const toPosix = require('./to-posix')
 
+/**
+ *
+ * @param {string[]} loaders
+ * @param {number} loaderIndex
+ * @returns {number}
+ */
 module.exports = (loaders, loaderIndex) => {
   for (let i = loaderIndex; i >= 0; i--) {
     const currentLoader = loaders[i]

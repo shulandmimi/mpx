@@ -18,6 +18,11 @@ const processWeb = require('./web')
 const processReact = require('./react')
 const genMpxCustomElement = require('./runtime-render/gen-mpx-custom-element')
 
+/**
+ * @this {LoaderContext}
+ * @param {string} content
+ * @returns
+ */
 module.exports = function (content) {
   this.cacheable()
 

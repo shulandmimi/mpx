@@ -9,8 +9,11 @@ const NullFactory = require('webpack/lib/NullFactory')
 const CommonJsVariableDependency = require('./dependencies/CommonJsVariableDependency')
 const CommonJsAsyncDependency = require('./dependencies/CommonJsAsyncDependency')
 const CommonJsExtractDependency = require('./dependencies/CommonJsExtractDependency')
+/** @type {typeof import('webpack').NormalModule} */
 const NormalModule = require('webpack/lib/NormalModule')
+/** @type {typeof import('webpack').EntryPlugin} */
 const EntryPlugin = require('webpack/lib/EntryPlugin')
+/** @type {typeof import('webpack').JavascriptModulesPlugin} */
 const JavascriptModulesPlugin = require('webpack/lib/javascript/JavascriptModulesPlugin')
 const FlagEntryExportAsUsedPlugin = require('webpack/lib/FlagEntryExportAsUsedPlugin')
 const FileSystemInfo = require('webpack/lib/FileSystemInfo')
@@ -119,6 +122,10 @@ class EntryNode {
 }
 
 class MpxWebpackPlugin {
+  /**
+   *
+   * @param {MpxPluginOption} options
+   */
   constructor (options = {}) {
     options.mode = options.mode || 'wx'
     options.env = options.env || ''
@@ -300,6 +307,10 @@ class MpxWebpackPlugin {
     }
   }
 
+  /**
+   *
+   * @param {import('webpack').Compiler} compiler
+   */
   apply (compiler) {
     if (!compiler.__mpx__) {
       compiler.__mpx__ = true
@@ -454,6 +465,9 @@ class MpxWebpackPlugin {
 
     new ExternalsPlugin('commonjs2', this.options.externals).apply(compiler)
 
+    /**
+     * @type {MpxPluginInstance}
+     */
     let mpx
 
     if (this.options.partialCompileRules) {
@@ -522,9 +536,17 @@ class MpxWebpackPlugin {
       }
     }
 
+    /**
+     * @param {string} subPackageEntriesType
+     * @param {import('webpack').Compilation} compilation
+     * @param {Callback} callback
+     */
     const processSubpackagesEntriesMap = (subPackageEntriesType, compilation, callback) => {
       const mpx = compilation.__mpx__
       if (mpx && !isEmptyObject(mpx[subPackageEntriesType])) {
+        /**
+         * @type {MpxPluginInstance['subpackagesEntriesMap']}
+         */
         const subpackagesEntriesMap = mpx[subPackageEntriesType]
         // 执行分包队列前清空 mpx[subPackageEntriesType]
         mpx[subPackageEntriesType] = {}
@@ -1765,9 +1787,11 @@ try {
 
     compiler.hooks.normalModuleFactory.tap('MpxWebpackPlugin', (normalModuleFactory) => {
       // resolve前修改原始request
+      // 处理 ?resolve
       normalModuleFactory.hooks.beforeResolve.tap('MpxWebpackPlugin', (data) => {
         const request = data.request
         const { queryObj, resource } = parseRequest(request)
+        // resolve 分包时，作为一个虚拟文件，返回一个占位符，后续替换为编译后的路径和 require
         if (queryObj.resolve) {
           // 此处的query用于将资源引用的当前包信息传递给resolveDependency
           const resolveLoaderPath = normalize.lib('resolve-loader')

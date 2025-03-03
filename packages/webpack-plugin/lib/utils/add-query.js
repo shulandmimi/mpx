@@ -3,7 +3,14 @@ const stringifyQuery = require('./stringify-query')
 const type = require('./type')
 const hasOwn = require('./has-own')
 
-// 默认为非强行覆盖原query，如需强行覆盖传递force为true
+/**
+ * 默认为非强行覆盖原 query ，如需强行覆盖传递 force 为 true
+ * @param {string} request
+ * @param {Record<string, unknown>} data
+ * @param {boolean} force
+ * @param {string[]} removeKeys
+ * @returns {string}
+ */
 module.exports = function addQuery (request, data = {}, force, removeKeys) {
   const { rawResourcePath: resourcePath, loaderString, queryObj: queryObjRaw } = parseRequest(request)
   const queryObj = Object.assign({}, queryObjRaw)

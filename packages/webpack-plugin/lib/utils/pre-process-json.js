@@ -9,6 +9,22 @@ const getRulesRunner = require('../platform')
 const { matchCondition } = require('./match-condition')
 const async = require('async')
 
+/**
+ * @typedef {Object} JSONPreProcessOptions
+ * @property {string} json
+ * @property {GlobalMode} srcMode
+ * @property {Function} emitWarning
+ * @property {Function} emitError
+ * @property {MpxModuleType} ctorType
+ * @property {string} resourcePath
+ * @property {LoaderContext} loaderContext
+ */
+
+/**
+ * 处理 json 或者 动态的 js json
+ * @param {JSONPreProcessOptions} param0
+ * @param {Callback} callback
+ */
 module.exports = function ({
   json,
   srcMode,

@@ -1,5 +1,24 @@
 const runRules = require('./run-rules')
 
+/**
+ * @typedef {Object} RulesRunnerOption
+ * @property {TemplateType} type
+ * @property {GlobalMode} mode
+ * @property {GlobalMode} srcMode
+ * @property {Record<string, any>} data
+ * @property {Record<string, any>} meta
+ * @property {string} testKey
+ * @property {string} mainKey
+ * @property {boolean} waterfall
+ * @property {Function} warn
+ * @property {Function} error
+ */
+
+/**
+ *
+ * @param {RulesRunnerOption} param0
+ * @returns
+ */
 module.exports = function getRulesRunner ({
   type,
   mode,
@@ -12,6 +31,9 @@ module.exports = function getRulesRunner ({
   warn,
   error
 }) {
+  /**
+   * @type {Record<TemplateType, Record<GlobalMode, PlatformSpecProcessor>>}
+   */
   const specMap = {
     template: {
       wx: require('./template/wx')

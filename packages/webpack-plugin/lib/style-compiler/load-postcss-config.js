@@ -7,6 +7,12 @@ function formatPlugins (plugins, file) {
   return plugins ? loadPlugins({ plugins }, file) : []
 }
 
+/**
+ *
+ * @param {LoaderContext} loaderContext
+ * @param {object} inlineConfig
+ * @returns {Promise<object>}
+ */
 module.exports = function loadPostcssConfig (loaderContext, inlineConfig = {}) {
   if (inlineConfig.ignoreConfigFile) {
     loaded = Promise.resolve({

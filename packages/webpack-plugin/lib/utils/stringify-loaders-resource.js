@@ -1,3 +1,8 @@
+/**
+ *
+ * @param {LoaderItem} data
+ * @returns {string}
+ */
 const loaderToIdent = data => {
   if (!data.options) {
     return data.loader
@@ -14,6 +19,12 @@ const loaderToIdent = data => {
   return data.loader + '?' + JSON.stringify(data.options)
 }
 
+/**
+ *
+ * @param {LoaderItem[]} loaders
+ * @param {string} resource
+ * @returns {string}
+ */
 const stringifyLoadersAndResource = (loaders, resource) => {
   let str = ''
   for (const loader of loaders) {

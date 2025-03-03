@@ -1,5 +1,11 @@
 const type = require('../utils/type')
 
+/**
+ *
+ * @param {Function | RegExp | string} rawTest
+ * @param {*} context
+ * @returns {(input: string) => boolean}
+ */
 function defaultNormalizeTest (rawTest, context) {
   const testType = type(rawTest)
   switch (testType) {
@@ -14,6 +20,13 @@ function defaultNormalizeTest (rawTest, context) {
   }
 }
 
+/**
+ *
+ * @param {PlatformTemplateSpec['postProps']} rules
+ * @param {*} input
+ * @param {*} options
+ * @returns
+ */
 module.exports = function runRules (rules = [], input, options = {}) {
   const { mode, testKey, normalizeTest, data = {}, meta = {}, waterfall } = options
   rules = rules.rules || rules

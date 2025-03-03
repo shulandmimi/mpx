@@ -13,6 +13,8 @@ module.exports = class PackageEntryPlugin {
    * 小程序发布npm包约束: package.json配置miniprogram 或默认 miniprogram_dist目录
    * 1. package.json中配置了miniprogram, 且request中不含miniprogram，尝试拼接
    * 2. 用户配置miniNpmPackages说明是小程序npm包，如果package.json中没配置miniprogram字段，则尝试拼接默认miniprogram_dist目录
+   *
+   * @param {import('webpack').Resolver} resolver
    */
   apply (resolver) {
     const target = resolver.ensureHook(this.target)

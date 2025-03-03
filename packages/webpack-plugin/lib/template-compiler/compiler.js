@@ -457,11 +457,34 @@ function parseHTML (html, options) {
   }
 }
 
+/**
+ *
+ */
+
+/**
+ * @typedef {object} ParserComponentResult
+ * @property {?TemplateParserTag} template
+ * @property {?TemplateParserTag} script
+ * @property {?TemplateParserTag} json
+ * @property {TemplateParserTag[]} styles
+ * @property {TemplateParserTag[]} customBlocks
+ * @property {object} config
+ */
+
+/**
+ *
+ * @param {string} content
+ * @param {*} options
+ * @returns {ParserComponentResult}
+ */
 function parseComponent (content, options) {
   mode = options.mode || 'wx'
   env = options.env
   filePath = options.filePath
 
+  /**
+   * @type {ParserComponentResult}
+   */
   const sfc = {
     template: null,
     script: null,
@@ -607,6 +630,15 @@ function parseComponent (content, options) {
   return sfc
 }
 
+/**
+ * @typedef {Object} ParserResult
+ */
+
+/**
+ * @param {string} template
+ * @param {object} options parser options
+ * @returns {{ root: object, meta: object }}
+ */
 function parse (template, options) {
   // global var init
   warn$1 = options.warn || baseWarn

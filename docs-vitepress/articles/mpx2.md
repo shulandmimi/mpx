@@ -95,14 +95,14 @@ Mpx 正是利用了 webpack 提供的这样一种能力，在遵照小程序的�
 
 ### Render Function
 
-Render Function 这块的内容我觉得是 Mpx 设计上的一大亮点内容。Mpx 引入 Render Function 主要解决的问题是性能优化方向相关的，因为小程序的架构设计，逻辑层和渲染层是2个独立的。
+Render Function 这块的内容我觉得是 Mpx 设计上的一大亮点内容。 Mpx 引入 Render Function 主要解决的问题是性能优化方向相关的，因为小程序的架构设计，逻辑层和渲染层是2个独立的。
 
 这里直接引用 Mpx 有关 Render Function 对于性能优化相关开发工作的描述：
 
-> 作为一个接管了小程序setData的数据响应开发框架，我们高度重视Mpx的渲染性能，通过小程序官方文档中提到的性能优化建议可以得知，setData对于小程序性能来说是重中之重，setData优化的方向主要有两个：
+> 作为一个接管了小程序 setData 的数据响应开发框架，我们高度重视 Mpx 的渲染性能，通过小程序官方文档中提到的性能优化建议可以得知， setData 对于小程序性能来说是重中之重，setData 优化的方向主要有两个：
 
-> * 尽可能减少setData调用的频次
-> * 尽可能减少单次setData传输的数据
+> * 尽可能减少 setData 调用的频次
+> * 尽可能减少单次 setData 传输的数据
 > 为了实现以上两个优化方向，我们做了以下几项工作：
 
 > 将组件的静态模板编译为可执行的render函数，通过render函数收集模板数据依赖，只有当render函数中的依赖数据发生变化时才会触发小程序组件的setData，同时通过一个异步队列确保一个tick中最多只会进行一次setData，这个机制和Vue中的render机制非常类似，大大降低了setData的调用频次；
@@ -724,7 +724,6 @@ Mpx 在这个方面所做的工作之一就是基于数据路径的 diff。这�
 接下来我们就来看下这个优化手段的具体实现思路，首先还是从一个简单的 demo 来看：
 
 ```javascript
-<script>
 import { createComponent } from '@mpxjs/core'
 
 createComponent({
@@ -745,7 +744,6 @@ createComponent({
     }, 200)
   }
 })
-</script>
 ```
 
 在示例 demo 当中，声明了一个 obj 对象(这个对象里面的内容在模块当中被使用到了)。然后经过 200ms 后，手动修改 obj.a 的值，因为对于 c 字段来说它的值没有发生改变，而 d 字段发生了改变。因此在 setData 方法当中也应该只更新 obj.a.d 的值，即：
@@ -763,7 +761,7 @@ renderData['obj.a.c'] = [this.obj.a.c, 'obj']
 renderData['obj.a.d'] = [this.obj.a.d, 'obj']
 ```
 
-当页面第一次渲染，或者是响应式输出发生变化的时候，Render Function 都会被执行一次用以获取最新的 renderData 来进行接下来的页面渲染过程。
+当页面第一次渲染，或者是响应式输出发生变化的时候， Render Function 都会被执行一次用以获取最新的 renderData 来进行接下来的页面渲染过程。
 
 ```javascript
 // src/core/proxy.js

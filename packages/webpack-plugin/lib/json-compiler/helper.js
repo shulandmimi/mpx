@@ -9,6 +9,11 @@ const resolve = require('../utils/resolve')
 const { matchCondition } = require('../utils/match-condition')
 const { isWeb, isReact } = require('../utils/env')
 
+/**
+ *
+ * @param {JSONHelperOption} param0
+ * @returns
+ */
 module.exports = function createJSONHelper ({ loaderContext, emitWarning, customGetDynamicEntry }) {
   const mpx = loaderContext.getMpx()
   const resolveMode = mpx.resolveMode

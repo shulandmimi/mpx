@@ -8,6 +8,17 @@ const parseRequest = require('../utils/parse-request')
 const hasOwn = require('../utils/has-own')
 
 class DynamicEntryDependency extends NullDependency {
+  /**
+   *
+   * @param {[start: number, end: number]} range
+   * @param {string} request
+   * @param {"export" | "page" | "component"} entryType
+   * @param {string} outputPath
+   * @param {string} packageRoot
+   * @param {string} relativePath
+   * @param {string} context
+   * @param {string} extraOptions
+   */
   constructor (range, request, entryType, outputPath = '', packageRoot = '', relativePath = '', context = '', extraOptions = {}) {
     super()
     this.request = request
@@ -33,6 +44,10 @@ class DynamicEntryDependency extends NullDependency {
     return toPosix([request, entryType, outputPath, packageRoot, relativePath, context, ...range].join('|'))
   }
 
+  /**
+   * @param {import('webpack').Compilation} compilation
+   * @param {Callback} callback
+   */
   addEntry (compilation, callback) {
     const mpx = compilation.__mpx__
     let { request, entryType, outputPath, relativePath, context, originEntryNode, publicPath, resolver, extraOptions } = this
@@ -47,6 +62,11 @@ class DynamicEntryDependency extends NullDependency {
           callback(null, request)
         }
       },
+      /**
+       * @param {string} resource
+       * @param {Callback} callback
+       * @returns
+       */
       (resource, callback) => {
         const { resourcePath } = parseRequest(resource)
 
@@ -129,6 +149,12 @@ class DynamicEntryDependency extends NullDependency {
     ], callback)
   }
 
+  /**
+   * @param {*} module
+   * @param {import('webpack').Compilation} compilation
+   * @param {Callback} callback
+   * @returns
+   */
   mpxAction (module, compilation, callback) {
     const { __mpx__: mpx, moduleGraph } = compilation
     let entryModule = module

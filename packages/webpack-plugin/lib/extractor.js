@@ -9,6 +9,12 @@ const { MPX_DISABLE_EXTRACTOR_CACHE, DEFAULT_RESULT_SOURCE } = require('./utils/
 
 module.exports = content => content
 
+/**
+ *
+ * @this {LoaderContext}
+ * @param {string} remainingRequest
+ * @returns {string}
+ */
 module.exports.pitch = async function (remainingRequest) {
   const mpx = this.getMpx()
   const mode = mpx.mode
@@ -21,7 +27,7 @@ module.exports.pitch = async function (remainingRequest) {
   const needBabel = queryObj.needBabel
 
   if (needBabel) {
-    // 创建js request应用babel
+    // 创建 js request 应用 babel
     const request = addQuery(this.request, {}, true, ['needBabel'])
     const fakeRequest = addQuery(`${resourcePath}.js`, queryObj)
     return `module.exports = require(${loaderUtils.stringifyRequest(this, `${fakeRequest}!=!${request}`)});\n`
@@ -71,6 +77,9 @@ module.exports.pitch = async function (remainingRequest) {
     extractedInfo
   })
 
+  /**
+   * @type {import('webpack').NormalModule}
+   */
   const { buildInfo } = this._module
 
   // 如果importModule子模块中包含动态特性，比如动态添加入口和静态资源输出路径，则当前extractor模块不可缓存

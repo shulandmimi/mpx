@@ -13,6 +13,21 @@ const getRulesRunner = require('../platform/index')
 const { RESOLVE_IGNORED_ERR } = require('../utils/const')
 const RecordResourceMapDependency = require('../dependencies/RecordResourceMapDependency')
 
+/**
+ * @typedef {Object} JSONProcessorOption
+ * @property {LoaderContext} loaderContext
+ * @property {string} ctorType
+ * @property {Record<string, string>} pagesMap
+ * @property {Record<string, string>} componentsMap
+ */
+
+/**
+ *
+ * @param {string} jsonContent
+ * @param {JSONProcessorOption} param1
+ * @param {Callback} rawCallback
+ * @returns
+ */
 module.exports = function (jsonContent, {
   loaderContext,
   ctorType,
@@ -22,6 +37,9 @@ module.exports = function (jsonContent, {
   const localPagesMap = {}
   const localComponentsMap = {}
   const output = '/* json */\n'
+  /**
+   * @type {MpxJsonConfig}
+   */
   let jsonObj = {}
   let tabBarMap
   let tabBarStr
@@ -139,6 +157,12 @@ module.exports = function (jsonContent, {
     callback()
   }
 
+  /**
+   *
+   * @param {MpxJsonConfig['packages']} packages
+   * @param {string} context
+   * @param {Callback} callback
+   */
   const processPackages = (packages, context, callback) => {
     if (packages) {
       async.each(packages, (packagePath, callback) => {
@@ -286,6 +310,12 @@ module.exports = function (jsonContent, {
     }
   }
 
+  /**
+   *
+   * @param {MpxJsonConfig['usingComponents']} components
+   * @param {string} context
+   * @param {Callback} callback
+   */
   const processComponents = (components, context, callback) => {
     if (components) {
       async.eachOf(components, (component, name, callback) => {

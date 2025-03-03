@@ -3,8 +3,15 @@ const parseComponent = require('./parser')
 const parseRequest = require('./utils/parse-request')
 const tsWatchRunLoaderFilter = require('./utils/ts-loader-watch-run-loader-filter')
 
+/**
+ *
+ * @this {LoaderContext} content
+ * @param {string} content
+ * @returns
+ */
 module.exports = function (content) {
   this.cacheable()
+  const start = Date.now()
   // 兼容处理处理ts-loader中watch-run/updateFile逻辑，直接跳过当前loader及后续的loader返回内容
   const pathExtname = path.extname(this.resourcePath)
   if (!['.vue', '.mpx'].includes(pathExtname)) {
@@ -53,5 +60,6 @@ module.exports = function (content) {
     part = { content }
   }
   part = part || { content: '' }
+  console.log({ resourcePath: this.resourcePath, costTime: Date.now() - start })
   this.callback(null, part.content, part.map)
 }

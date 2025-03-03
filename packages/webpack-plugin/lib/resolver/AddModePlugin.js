@@ -13,6 +13,9 @@ module.exports = class AddModePlugin {
     this.options = options
   }
 
+  /**
+   * @param {import('webpack').Resolver} resolver
+   */
   apply (resolver) {
     const target = resolver.ensureHook(this.target)
     const { options = {}, mode } = this

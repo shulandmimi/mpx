@@ -1,6 +1,10 @@
 const stringifyAttr = require('../template-compiler/compiler').stringifyAttr
 const type = require('./type')
 
+/**
+ * @param {Record<string, string>} attrs
+ * @returns {string}
+ */
 function stringifyAttrs (attrs) {
   let result = ''
   Object.keys(attrs).forEach(function (name) {

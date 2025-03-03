@@ -1,22 +1,16 @@
 {
-  "include": [
-    "./lib/runtime/components/react"
-  ],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "outDir": "./lib/runtime/components/react/dist",
-    "noImplicitThis": true,
-    "noImplicitAny": true,
     "skipLibCheck": true,
+    "allowJs": true,
+    "noEmit": true,
     "strictNullChecks": true,
+    "checkJs": false,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable"
-    ]
-  }
+  },
+  "include": [
+    "lib/**/*",
+    "types/**/*"
+  ]
 }

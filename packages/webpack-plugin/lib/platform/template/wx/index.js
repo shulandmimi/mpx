@@ -7,7 +7,13 @@ const { parseMustacheWithContext, stringifyWithResolveComputed } = require('../.
 const normalize = require('../../../utils/normalize')
 const { dash2hump } = require('../../../utils/hump-dash')
 
+/**
+ * @type {PlatformSpecProcessor}
+ */
 module.exports = function getSpec ({ warn, error }) {
+  /**
+   * @type {PlatformTemplateSpec}
+   */
   const spec = {
     supportedModes: ['ali', 'swan', 'qq', 'tt', 'web', 'qa', 'jd', 'dd', 'ios', 'android'],
     // props预处理

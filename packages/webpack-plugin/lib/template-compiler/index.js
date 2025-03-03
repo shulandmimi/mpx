@@ -8,7 +8,12 @@ const RecordRuntimeInfoDependency = require('../dependencies/RecordRuntimeInfoDe
 const { createTemplateEngine, createSetupTemplate } = require('@mpxjs/template-engine')
 const { stringify } = require('./dynamic')
 
-module.exports = function (raw) {
+/**
+ * template-loader
+ * @this {LoaderContext}
+ * @param {string} raw source code
+ */
+function loader (raw) {
   this.cacheable()
   const { resourcePath, queryObj, rawResourcePath } = parseRequest(this.resource)
   const mpx = this.getMpx()
@@ -42,15 +47,11 @@ module.exports = function (raw) {
   }
 
   const warn = (msg) => {
-    this.emitWarning(
-      new Error('[template compiler][' + this.resource + ']: ' + msg)
-    )
+    this.emitWarning(new Error('[template compiler][' + this.resource + ']: ' + msg))
   }
 
   const error = (msg) => {
-    this.emitError(
-      new Error('[template compiler][' + this.resource + ']: ' + msg)
-    )
+    this.emitError(new Error('[template compiler][' + this.resource + ']: ' + msg))
   }
 
   const { root, meta } = compiler.parse(raw, {
@@ -109,21 +110,25 @@ module.exports = function (raw) {
   const rawCode = runtimeCompile ? '' : compiler.genNode(root)
   if (rawCode) {
     try {
-      const ignoreMap = Object.assign({
-        _i: true,
-        _c: true,
-        _sc: true,
-        _r: true
-      }, meta.wxsModuleMap)
-      const bindResult = optimizeRenderLevel === 2
-        ? bindThis.transformSimple(rawCode, {
-          ignoreMap
-        })
-        : bindThis.transform(rawCode, {
-          needCollect: true,
-          renderReduce: optimizeRenderLevel === 1,
-          ignoreMap
-        })
+      const ignoreMap = Object.assign(
+        {
+          _i: true,
+          _c: true,
+          _sc: true,
+          _r: true
+        },
+        meta.wxsModuleMap
+      )
+      const bindResult =
+        optimizeRenderLevel === 2
+          ? bindThis.transformSimple(rawCode, {
+              ignoreMap
+            })
+          : bindThis.transform(rawCode, {
+              needCollect: true,
+              renderReduce: optimizeRenderLevel === 1,
+              ignoreMap
+            })
       resultSource += `global.currentInject.render = function (_i, _c, _r, _sc) {
 ${bindResult.code}
 _r(${optimizeRenderLevel === 2 ? 'true' : ''});
@@ -169,7 +174,9 @@ ${e.stack}`)
   // 运行时编译的组件直接返回基础模板的内容，并产出动态文本内容
   if (runtimeCompile) {
     // 包含了运行时组件的template模块必须每次都创建（但并不是每次都需要build），用于收集组件节点信息，传递信息以禁用父级extractor的缓存
-    this.emitFile(MPX_DISABLE_EXTRACTOR_CACHE, '', undefined, { skipEmit: true })
+    this.emitFile(MPX_DISABLE_EXTRACTOR_CACHE, '', undefined, {
+      skipEmit: true
+    })
 
     const templateInfo = {
       templateAst: stringify(root),
@@ -177,9 +184,16 @@ ${e.stack}`)
     }
 
     // 以 package 为维度存储，meta 上的数据也只是存储了这个组件的 template 上获取的信息，需要在 dependency 里面再次进行合并操作
-    this._module.addPresentationalDependency(new RecordRuntimeInfoDependency(packageName, resourcePath, { type: 'template', info: templateInfo }))
+    this._module.addPresentationalDependency(
+      new RecordRuntimeInfoDependency(packageName, resourcePath, {
+        type: 'template',
+        info: templateInfo
+      })
+    )
     // 运行时组件的模版直接返回空，在生成模版静态文件的时候(beforeModuleAssets)再动态注入
   }
 
   return result
 }
+
+module.exports = loader

@@ -46,6 +46,9 @@ const reactConfig = {
   }
 }
 
+/**
+ * @type {Record<GlobalMode, MpxConfig>}
+ */
 module.exports = {
   wx: {
     typeExtMap: {

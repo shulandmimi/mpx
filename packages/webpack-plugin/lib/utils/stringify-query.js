@@ -6,6 +6,12 @@
  */
 const JSON5 = require('json5')
 
+/**
+ *
+ * @param {Record<string, string>} obj
+ * @param {boolean} useJSON
+ * @returns {string}
+ */
 function stringifyQuery (obj, useJSON) {
   if (useJSON) return `?${JSON5.stringify(obj)}`
 

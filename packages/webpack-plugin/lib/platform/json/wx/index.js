@@ -8,6 +8,9 @@ const { isOriginTag, isBuildInTag } = require('../../../utils/dom-tag-config')
 const mpxViewPath = normalize.lib('runtime/components/ali/mpx-view.mpx')
 const mpxTextPath = normalize.lib('runtime/components/ali/mpx-text.mpx')
 
+/**
+ * @type {PlatformSpecProcessor}
+ */
 module.exports = function getSpec ({ warn, error }) {
   function print (mode, path, isError) {
     const msg = `Json path <${path}> is not supported in ${mode} environment!`
